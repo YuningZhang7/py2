@@ -1,0 +1,61 @@
+{
+	"name": "pypr-base",
+	"image": "ghcr.io/pypr-25/pypr-base:main",
+
+
+	// VSCode default settings
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "/opt/conda/bin/conda init",
+
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-toolsai.jupyter@2025.7.0"
+			],
+			"settings": {
+				"python.terminal.executeInFileDir": true,
+				"git.rebaseWhenSync": true,
+                "python.condaPath": "/opt/conda/bin/conda",
+                "python.defaultInterpreterPath": "/opt/conda/bin/python",
+                "python.terminal.activateEnvironment": true,
+                "python.terminal.activateEnvInCurrentTerminal": true,
+                "python-envs.defaultEnvManager": "ms-python.python:conda",
+                "python-envs.defaultPackageManager": "ms-python.python:conda",
+                "python.REPL.sendToNativeREPL": true,
+
+                "editor.lineHeight": 17,
+                "breadcrumbs.enabled": false,
+                "notebook.insertToolbarLocation": "notebookToolbar",
+                "notebook.showCellStatusBar": "hidden",
+                "notebook.cellToolbarLocation": {
+                    "jupyter-notebook": "hidden"
+                },
+                "notebook.globalToolbar": false,
+                "notebook.experimental.outputScrolling": true,
+                "notebook.consolidatedRunButton": true,
+
+                "chat.disableAIFeatures": true,
+
+                "inlineChat.lineEmptyHint": false,
+                "python.analysis.addHoverSummaries": false,
+                "python.analysis.supportDocstringTemplate": false,
+                "editor.inlineSuggest.enabled": false,
+                "editor.parameterHints.enabled": false,
+                "editor.snippetSuggestions": "none",
+                "jupyter.executionAnalysis.enabled": false,
+                "workbench.settings.showAISearchToggle": false,
+                "notebook.experimental.generate": false,
+                "python.experiments.enabled": false
+			}
+		}
+	}
+
+}
