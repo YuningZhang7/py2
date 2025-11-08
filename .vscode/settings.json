@@ -17,7 +17,7 @@
     "notebook.globalToolbar": false,
     "notebook.consolidatedRunButton": true,
 
-    "chat.disableAIFeatures": true,
+    "chat.disableAIFeatures": false,
 
     "inlineChat.lineEmptyHint": false,
     "python.analysis.addHoverSummaries": false,
