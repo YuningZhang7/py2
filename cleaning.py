@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-data = pd.read_csv('https://assets.publishing.service.gov.uk/media/6762f39cff2c870561bde826/Postcode_level_all_meters_electricity_2023.csv')
+data = pd.read_csv('https://assets.publishing.service.gov.uk/media/6762f20f3229e84d9bbde81f/Postcode_level_all_meters_electricity_2021.csv')
 #We want to remove the postcodes which are not in scotland
 # List of Scottish postcodes
 scot_postcodes = ['AB', 'DD', 'DG', 'EH', 'FK', 'G', 'HS', 'IV', 'KA', 'KW', 'KY', 'ML', 'PA', 'PH', 'TD', 'ZE']
@@ -16,4 +16,4 @@ print(clean_data['Outcode'].str.extract(r'^([A-Z]{1,2})')[0].value_counts())
 # Print the length of the clean data
 print(f"Remaining rows: {len(clean_data)}")
 # Export data to csv
-clean_data.to_csv('electricity_scotland_clean_2023.csv', index=False)
+clean_data.to_csv('electricity_scotland_clean_2021.csv', index=False)
