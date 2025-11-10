@@ -17,3 +17,23 @@ print(clean_data['Outcode'].str.extract(r'^([A-Z]{1,2})')[0].value_counts())
 print(f"Remaining rows: {len(clean_data)}")
 # Export data to csv
 clean_data.to_csv('electricity_scotland_clean_2021.csv', index=False)
+
+info_2015 = pd.read_csv('https://assets.publishing.service.gov.uk/media/6762e8dbe6ff7c8a1fde9b2c/Postcode_level_all_meters_electricity_2015.csv')
+clean_2015 = info_2015.copy()
+
+#Got from chatgpt - create new column with city codes 
+
+clean_2015['City'] = clean_2015['Outcode'].str.strip('0123456789')
+clean_2015 = clean_2015[clean_2015['City'].isin(scot_postcodes)]
+
+clean_2015.to_csv('electricity_scotland_clean_2015.csv',index=False)
+
+#Cleaning data 
+info_2016 = pd.read_csv('https://assets.publishing.service.gov.uk/media/6762e9b2e6ff7c8a1fde9b30/Postcode_level_all_meters_electricity_2016.csv')
+clean_2016 = info_2016.copy()
+
+clean_2016['City'] = clean_2016['Outcode'].str.strip('0123456789')
+
+clean_2016 = clean_2016[clean_2016['City'].isin(scot_postcodes)]
+
+clean_2016.to_csv('electricity_scotland_clean_2016.csv',index=False)
