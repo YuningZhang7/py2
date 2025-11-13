@@ -23,4 +23,5 @@ scotland_data.to_csv("electricity_scotland_2020.csv", index=False)
 print("Scotland data saved successfully!")
 print("Rows kept:", len(scotland_data))
 
+
 # I have saved the both 2019 and 2020 data.
