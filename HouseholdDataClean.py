@@ -7,4 +7,4 @@ columns_to_remove = ['All occupied households', 'Whole house or bungalow: Detach
 
 clean_house_data = clean_house_data.drop(columns_to_remove,axis=1)
 
-print(clean_house_data.columns)
+print(clean_house_data.head)
