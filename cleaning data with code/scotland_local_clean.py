@@ -11,7 +11,6 @@ This script handles the ETL (Extract, Transform, Load) process:
 import pandas as pd
 from pathlib import Path
 import re
-import os
 
 #CONFIGURATION & CONSTANTS
 
