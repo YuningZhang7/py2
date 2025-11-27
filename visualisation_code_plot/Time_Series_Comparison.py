@@ -36,7 +36,7 @@ def plot_urban_vs_island_trend():
     urban_councils = ['Glasgow City', 'City of Edinburgh', 'Aberdeen City', 'Dundee City']
     
     # Group B: Major Islands (Rural/Off-Grid)
-    island_councils = ['Orkney Islands', 'Shetland Islands', 'Na h-Eileanan Siar']
+    island_councils = ['Orkney Islands', 'Shetland Islands', 'Na h-Eileanan Siar', 'Argyll and Bute']
     
     #Extract Time Series Data
     years = [str(y) for y in range(2015, 2024)]
