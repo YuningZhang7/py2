@@ -11,23 +11,15 @@ This script handles the ETL (Extract, Transform, Load) process:
 import pandas as pd
 from pathlib import Path
 import re
+import os
 
-#CONFIGURATION & CONSTANTS
-
-# Determine the directory where this script is currently located
-# This ensures output files are always saved relative to the script
-SCRIPT_DIR = Path(__file__).resolve().parent
-OUTPUT_DIR = SCRIPT_DIR / "clean_data"
+OUTPUT_DIR = "clean_data"
 
 # Set of Postcode Area prefixes belonging to Scotland
-# Using a set for O(1) lookup speed during filtering
-SCOT_AREAS = {
-    "AB", "DD", "DG", "EH", "FK", "G", "HS", "IV", 
-    "KA", "KW", "KY", "ML", "PA", "PH", "TD", "ZE"
-}
+SCOT_AREAS = ["AB", "DD", "DG", "EH", "FK", "G", "HS", "IV", 
+              "KA", "KW", "KY", "ML", "PA", "PH", "TD", "ZE"]
 
-# Regex pattern to extract the Area Prefix from a full postcode
-AREA_RE = re.compile(r"^([A-Z]{1,2})")
+
 
 # Direct download URLs for UK electricity consumption data (2015-2023)
 DATA_URLS = {
@@ -43,6 +35,7 @@ DATA_URLS = {
 }
 
 #HELPER FUNCTIONS
+#Do we really need the following function?
 
 def find_postcode_col(columns: list) -> str | None:
     """
@@ -83,11 +76,63 @@ def filter_scotland_chunk(df: pd.DataFrame, postcode_col: str) -> pd.DataFrame:
     # Ensure postcodes are strings, remove whitespace, and convert to uppercase
     postcode_series = df[postcode_col].astype(str).str.strip().str.upper()
     
+    #clean_2016['City'] = clean_2016['Outcode'].str.strip('0123456789')
+
+    #clean_2016 = clean_2016[clean_2016['City'].isin(scot_postcodes)]
     # Extract the Area Prefix
     area_prefix = postcode_series.str.extract(AREA_RE, expand=False)
     
     # Filter rows where the prefix exists in the predefined Scottish set
     return df.loc[area_prefix.isin(SCOT_AREAS)].copy()
+
+def filter_scotland_chunk(dataset):
+    """
+    Filters a dataframe to retain only rows corresponding to Scottish postcodes.
+
+    Input: Dataset of all electricity data across UK with outcode information
+
+    Returns: A copy of the dataframe containing only Scottish records.
+    """
+
+    clean_dataset = dataset.copy()
+    clean_dataset['City Code'] = clean_dataset['Outcode'].str.strip('0123456789')
+    clean_dataset= clean_dataset[clean_dataset['City Code'].isin(SCOT_AREAS)]
+    clean_dataset = clean_dataset.drop(['City Code'],axis =1)
+    return clean_dataset
+
+def get_scottish_data(year, url):
+
+    # Folder where files will be saved
+    folder = "clean_data"
+
+    #If folder does not exist, then create
+    os.makedirs(folder, exist_ok=True)
+
+    # Full path to the output CSV
+    filename = f"{folder}/electricity_scotland_{year}.csv"
+
+
+    # If file already exists, load and return it
+    if os.path.exists(filename):
+        print(f"[{year}] We already have the file!")
+        data = pd.read_csv(filename, dtype=str)
+        return data
+    else: 
+        df = pd.read_csv(url, dtype=str, low_memory=False)
+        scot_data = filter_scotland_chunk(df)
+        scot_data.to_csv(filename, index=False)
+        return pd.read_csv(filename, dtype=str)
+
+
+if __name__ == "__main__":
+    print("Scotland Electricity Data Cleaner")
+    print(f"Output Directory: {OUTPUT_DIR}")
+
+    for year in range(2015, 2024):
+        url = DATA_URLS.get(year)
+        get_scottish_data(year, url)
+
+    print("All files downloaded for analysis.")    
 
 
 def process_url_to_clean_csv(year: int, url: str, output_path: Path) -> bool:

@@ -52,8 +52,8 @@ house_data_electricity['Caravan or other mobile or temporary structure'] = (
     .astype(float)            # convert to float
 )
 
-house_data_electricity['Whole House'] = (house_data_electricity['Whole house or bungalow: Total'] >= 90).astype(int)
-house_data_electricity['Flats'] = (house_data_electricity['Flat, maisonette or apartment: Total'] >= 90).astype(int)
+house_data_electricity['Whole House'] = (house_data_electricity['Whole house or bungalow: Total'] >= 80).astype(int)
+house_data_electricity['Flats'] = (house_data_electricity['Flat, maisonette or apartment: Total'] >= 80).astype(int)
 house_data_electricity['Other'] = (house_data_electricity['Caravan or other mobile or temporary structure'] >= 90).astype(int)
 
 
@@ -64,6 +64,7 @@ print(flat_electricity.describe())
 print(whole_house_electricity.describe())
 
 #Boxplot this info
+print(electricity_data.isna().sum())
 
 
 
